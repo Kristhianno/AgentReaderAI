@@ -95,7 +95,7 @@ Trazer_informacao = Task(
 
 
 Trazer_analises_precisas = Task(
-    description="O Analista deve fornecer análises precisas do documento para o Diretor obter insights valiosos. retorne as mensagens em Português do Brasil",
+    description="O Analista deve fornecer todos os dados encontrados no documento. retorne as mensagens em Português do Brasil",
     expected_output="Análise conclúida com sucesso.",
     agent=Analista
 )
