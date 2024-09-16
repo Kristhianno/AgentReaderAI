@@ -10,6 +10,7 @@ load_dotenv()
 
 GroqApiKey = os.getenv('GROQ_API_KEY')
 
+
 OpenaiApiKey = os.getenv('OPENAI_API_KEY')
 
 
@@ -43,8 +44,8 @@ file_read_csv_tool = CSVSearchTool(csv= 'Estoque.csv',
             provider="openai", # or google, openai, anthropic, llama2, ...
             config=dict(
                 model='gpt-4o',
-                 temperature=0.5,
-                 top_p=1,
+                # temperature=0.5,
+                # top_p=1,
                 # stream=true,
             ),
         ),
@@ -52,16 +53,12 @@ file_read_csv_tool = CSVSearchTool(csv= 'Estoque.csv',
             provider="openai", # or openai, ollama, ...
             config=dict(
                 model="text-embedding-3-small",
-                task_type="retrieval_document",
-                title="Embeddings",
+                # task_type="retrieval_document",
+                # title="Embeddings",
             ),
         ),
     )
 )
-
-
-
-
 
 
 
