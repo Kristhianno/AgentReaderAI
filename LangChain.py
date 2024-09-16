@@ -2,10 +2,12 @@ import os
 #import streamlit as st
 from langchain.vectorstores import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.prompts import PromptTemplate
+#from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_community.document_loaders import CSVLoader
-from langchain.chains import LLChains
+#rom langchain.chains import LLChains
+
+
 from dotenv import load_dotenv
 
 load_dotenv ()
@@ -20,14 +22,21 @@ documents = loader.load()
 embeddings = OpenAIEmbeddings()
 db = FAISS.from_documents(documents, embeddings)
 
+print(db)
+
+
+
+
+"""
 
 def retrieve_info(query):
     similar_response = db.similarity_search(query, k=3)
     return [doc.page_content for doc in similar_response]
 
-template = """
+template = '''
                 Você é um analista de dados e esta apto para responder {message} 
-           """
+           '''
+
 
 prompt = PromptTemplate(
     input_variables=["message"],
@@ -42,3 +51,5 @@ def generate_response(message):
 
 
 generate_response("quais produtos com a maior quantidade em estoque?")
+
+"""
