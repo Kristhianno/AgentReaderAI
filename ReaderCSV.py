@@ -1,7 +1,7 @@
 import os
 from crewai import Agent, Task, Crew, Process
 from langchain_groq import ChatGroq
-from langchain_openai import ChatOpenAI
+#from langchain_openai import ChatOpenAI
 from crewai_tools import CSVSearchTool
 #from crewai_tools import FileReadTool
 from dotenv import load_dotenv
@@ -10,18 +10,14 @@ load_dotenv()
 
 GroqApiKey = os.getenv('GROQ_API_KEY')
 
-
+'''
 OpenaiApiKey = os.getenv('OPENAI_API_KEY')
-
-
-
 Openai = ChatOpenAI (
                     api_key= OpenaiApiKey,
                     model= 'gpt-4o'
 )
 
-
-
+'''
 
 
 llama3 = ChatGroq(
@@ -31,49 +27,40 @@ llama3 = ChatGroq(
 
 
 
-#file_read_csv_tool = CSVSearchTool('Estoque.csv')
+file_read_csv_tool = CSVSearchTool('Estoque.csv')
 
 #file_read_txt_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
 
 
 
 
-file_read_csv_tool = CSVSearchTool(csv= 'Estoque.csv',
-    config=dict(
-        llm=dict(
-            provider="openai", # or google, openai, anthropic, llama2, ...
-            config=dict(
-                model='gpt-4o',
-                # temperature=0.5,
-                # top_p=1,
-                # stream=true,
-            ),
-        ),
-        embedder=dict(
-            provider="openai", # or openai, ollama, ...
-            config=dict(
-                model="text-embedding-3-small",
-                # task_type="retrieval_document",
-                # title="Embeddings",
-            ),
-        ),
-    )
-)
+
 
 
 
 
 Diretor = Agent(
-    role='Diretor Executivo',
-    goal='Coordenar a demanda de vendas da equipe, retorne as mensagens em Português do Brasil',
-    backstory="O Diretor é responsável e assertivo em suas decisões para otimizar faturamento e reduzir gastos.Retorne as mensagens em Português do Brasil",
+    role='Diretor Comercial',
+    goal='Decidir e executar a melhor estratégia para equipe de vendas,retorne as mensagens em Português do Brasil',
+    backstory="O Diretor é um profissional altamente capacitado com PHD em Havard de Administração de Empresas" 
+              "e muita experiência no segmento de vendas.Retorne as mensagens em Português do Brasil",
+    verbose= True,    
+    llm=llama3 
+    )
+
+
+
+Analista = Agent(
+    role='Analista de Dados',
+    goal= "Analisar os dados do arquivo e pontuar quais são os top 10 produtos com mais estoque" 
+            " disponível para venda,retorne as mensagens em Português do Brasil",
+    tools=[file_read_csv_tool],
+    backstory="O Analista é um profissinal altamente requisitado para o time de negócio, muito qualificado com PHD no MIT , retorne  as mensagens em Português do Brasil.",
     verbose= True,
-    llm=Openai
+    llm=llama3
 )
 
 
-
-'''
 
 Vendedor = Agent(
     role='Vendedor Comercial',
@@ -81,19 +68,7 @@ Vendedor = Agent(
     tools=[file_read_csv_tool],
     backstory="O vendedor é um profissional inteligente e comunicador,retorne as mensagens em Português do Brasil",
     verbose= True,
-    llm=Openai
-)
-
-'''
-
-
-Analista = Agent(
-    role='Analista de Dados',
-    goal='Analisar os dados para tomada de decisão precisa do Diretor,retorne as mensagens em Português do Brasil',
-    tools=[file_read_csv_tool],
-    backstory="O Analista é um profissinal altamente requisitado para o time de negócio, retorne  as mensagens em Português do Brasil.",
-    verbose= True,
-    llm=Openai
+    llm=llama3
 )
 
 
@@ -101,7 +76,7 @@ Analista = Agent(
 coordenar_equipe = Task(
     description=  " O Diretor deve coordenar a equipe, mantendo a comunicação e fornecendo suporte estratégico." 
                   "Diretor deve ordenar que o Analista faça uma pesquisa geral no documento e depois  "
-                  " possa trazer informações relevantes , retorne as mensagens em Português do Brasil" ,
+                  " traga os top 10 produtos disponíveis em estoque para venda , retorne as mensagens em Português do Brasil" ,
 
     expected_output="Análise bem sucedida, temos a estratégia perfeita para a diretoria. Retorne as mensagens em Português do Brasil.",
     agent=Diretor,
@@ -109,22 +84,23 @@ coordenar_equipe = Task(
 )
 
 
-'''
+
 
 Trazer_informacao = Task(
     description="O Vendedor deve trazer informações precisas para o Analista , retorne as mensagens em Português do Brasil.",
     expected_output="Todas as informações foram passadas para o Analista, caminho livre para trazer as melhores estratégias.",
     agent=Vendedor
 )
-'''
+
+
+
 
 
 Trazer_analises_precisas = Task(
     description="O Analista deve fornecer todos os dados encontrados no documento. retorne as mensagens em Português do Brasil",
     expected_output="Análise conclúida com sucesso.",
-    agent=Analista
+    agent = Analista
 )
-
 
 
 
@@ -133,7 +109,7 @@ time_comercial = Crew(
     agents=[Diretor,  Analista],
     tasks=[coordenar_equipe,  Trazer_analises_precisas],
     process=Process.hierarchical,
-    manager_llm=Openai
+    manager_llm=llama3
 )
 
 

@@ -23,12 +23,25 @@ file_read_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
 
 
 Diretor = Agent(
-    role='Diretor Executivo',
-    goal='Coordenar a demanda de vendas da equipe, retorne as mensagens em Português do Brasil',
-    backstory="O Diretor é responsável e assertivo em suas decisões para otimizar faturamento e reduzir gastos.Retorne as mensagens em Português do Brasil",
-    verbose= True,
+    role='Diretor Comercial',
+    goal='Decidir e executar a melhor estratégia para equipe de vendas,retorne as mensagens em Português do Brasil',
+    backstory="O Diretor é um profissional altamente capacitado com PHD em Havard de Administração de Empresas" 
+              "e muita experiência no segmento de vendas.Retorne as mensagens em Português do Brasil",
+    verbose= True,    
     llm=llama3 
     )
+
+
+
+Analista = Agent(
+    role='Analista de Dados',
+    goal= "Analisar os dados do arquivo e pontuar quais são os top 10 produtos com mais estoque" 
+            " disponível para venda,retorne as mensagens em Português do Brasil",
+    tools=[file_read_tool],
+    backstory="O Analista é um profissinal altamente requisitado para o time de negócio, muito qualificado com PHD no MIT , retorne  as mensagens em Português do Brasil.",
+    verbose= True,
+    llm=llama3
+)
 
 
 
@@ -43,15 +56,6 @@ Vendedor = Agent(
 
 
 
-
-Analista = Agent(
-    role='Analista de Dados',
-    goal='Analisar os dados para tomada de decisão precisa do Diretor,retorne as mensagens em Português do Brasil',
-    tools=[file_read_tool],
-    backstory="O Analista é um profissinal altamente requisitado para o time de negócio, retorne  as mensagens em Português do Brasil.",
-    verbose= True,
-    llm=llama3
-)
 
 
 
