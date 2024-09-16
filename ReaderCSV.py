@@ -27,7 +27,7 @@ llama3 = ChatGroq(
 
 
 
-file_read_csv_tool = CSVSearchTool('Estoque.csv')
+file_read_csv_tool = CSVSearchTool()
 
 #file_read_txt_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
 
