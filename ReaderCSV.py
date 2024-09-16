@@ -14,7 +14,6 @@ OpenaiApiKey = os.getenv('OPENAI_API_KEY')
 
 
 
-
 Openai = ChatOpenAI (
                     api_key= OpenaiApiKey,
                     model= 'gpt-4o'
@@ -49,7 +48,7 @@ Diretor = Agent(
     llm=Openai
 )
 
-
+'''
 
 Vendedor = Agent(
     role='Vendedor Comercial',
@@ -60,7 +59,7 @@ Vendedor = Agent(
     llm=Openai
 )
 
-
+'''
 
 
 Analista = Agent(
@@ -75,7 +74,9 @@ Analista = Agent(
 
 
 coordenar_equipe = Task(
-    description= " O Diretor deve coordenar a equipe, mantendo a comunicação e fornecendo suporte estratégico. Diretor deve ordenar primeiro que o Vendedor pesquise na web para que o Analista, analise o documento e possa trazer informações relevantes, retorne as mensagens em Português do Brasil" ,
+    description=  " O Diretor deve coordenar a equipe, mantendo a comunicação e fornecendo suporte estratégico." 
+                  "Diretor deve ordenar que o Analista faça uma pesquisa geral no documento e depois  "
+                  " possa trazer informações relevantes , retorne as mensagens em Português do Brasil" ,
 
     expected_output="Análise bem sucedida, temos a estratégia perfeita para a diretoria. Retorne as mensagens em Português do Brasil.",
     agent=Diretor,
@@ -83,18 +84,18 @@ coordenar_equipe = Task(
 )
 
 
-
+'''
 
 Trazer_informacao = Task(
     description="O Vendedor deve trazer informações precisas para o Analista , retorne as mensagens em Português do Brasil.",
     expected_output="Todas as informações foram passadas para o Analista, caminho livre para trazer as melhores estratégias.",
     agent=Vendedor
 )
-
+'''
 
 
 Trazer_analises_precisas = Task(
-    description="O Analista deve fornecer análises precisas do documento que venho do Vendedor obtendo insights valiosos. retorne as mensagens em Português do Brasil",
+    description="O Analista deve fornecer análises precisas do documento para o Diretor obter insights valiosos. retorne as mensagens em Português do Brasil",
     expected_output="Análise conclúida com sucesso.",
     agent=Analista
 )
@@ -104,8 +105,8 @@ Trazer_analises_precisas = Task(
 
 # Inicialização da equipe
 time_comercial = Crew(
-    agents=[Diretor, Vendedor, Analista],
-    tasks=[coordenar_equipe, Trazer_informacao, Trazer_analises_precisas],
+    agents=[Diretor,  Analista],
+    tasks=[coordenar_equipe,  Trazer_analises_precisas],
     process=Process.hierarchical,
     manager_llm=Openai
 )
