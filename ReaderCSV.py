@@ -30,9 +30,35 @@ llama3 = ChatGroq(
 
 
 
-file_read_csv_tool = CSVSearchTool('Estoque.csv')
+#file_read_csv_tool = CSVSearchTool('Estoque.csv')
 
 #file_read_txt_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
+
+
+
+
+file_read_csv_tool = CSVSearchTool(csv= 'Estoque.csv',
+    config=dict(
+        llm=dict(
+            provider="openai", # or google, openai, anthropic, llama2, ...
+            config=dict(
+                model='gpt-4o',
+                 temperature=0.5,
+                 top_p=1,
+                # stream=true,
+            ),
+        ),
+        embedder=dict(
+            provider="openai", # or openai, ollama, ...
+            config=dict(
+                model="text-embedding-3-small",
+                task_type="retrieval_document",
+                title="Embeddings",
+            ),
+        ),
+    )
+)
+
 
 
 

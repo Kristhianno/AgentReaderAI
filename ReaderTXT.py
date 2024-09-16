@@ -27,8 +27,8 @@ Diretor = Agent(
     goal='Coordenar a demanda de vendas da equipe, retorne as mensagens em Português do Brasil',
     backstory="O Diretor é responsável e assertivo em suas decisões para otimizar faturamento e reduzir gastos.Retorne as mensagens em Português do Brasil",
     verbose= True,
-    llm=llama3
-)
+    llm=llama3 
+    )
 
 
 
