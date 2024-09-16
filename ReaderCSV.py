@@ -48,6 +48,8 @@ Diretor = Agent(
     llm=Openai
 )
 
+
+
 '''
 
 Vendedor = Agent(
