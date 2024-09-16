@@ -56,7 +56,9 @@ Analista = Agent(
 
 
 coordenar_equipe = Task(
-    description= " O Diretor deve coordenar a equipe, mantendo a comunicação e fornecendo suporte estratégico. Diretor deve ordenar primeiro que o Vendedor pesquise na web para que o Analista, analise o documento e possa trazer informações relevantes, retorne as mensagens em Português do Brasil" ,
+    description= " O Diretor deve coordenar a equipe, mantendo a comunicação e fornecendo suporte estratégico."
+                 " Diretor deve ordenar primeiro que o Vendedor pesquise na web para que o Analista, analise o documento " 
+                 " e possa trazer informações relevantes, retorne as mensagens em Português do Brasil" ,
 
     expected_output="Análise bem sucedida, temos a estratégia perfeita para a diretoria. Retorne as mensagens em Português do Brasil.",
     agent=Diretor,
@@ -75,11 +77,12 @@ Trazer_informacao = Task(
 
 
 Trazer_analises_precisas = Task(
-    description="O Analista deve fornecer análises precisas do documento que venho do Vendedor obtendo insights valiosos. retorne as mensagens em Português do Brasil",
+    description= "O Analista deve fornecer análises precisas do documento que venho do Vendedor obtendo insights valiosos." 
+                 "retorne as mensagens em Português do Brasil",
+
     expected_output="Análise conclúida com sucesso.",
     agent=Analista
 )
-
 
 
 
@@ -95,3 +98,4 @@ time_comercial = Crew(
 # Exemplo de execução da equipe
 resultado = Crew.kickoff(time_comercial)
 print(resultado)
+
