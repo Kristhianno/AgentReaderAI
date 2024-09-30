@@ -1,7 +1,7 @@
 import os
 from crewai import Agent, Task, Crew, Process
-from langchain_groq import ChatGroq
-#from langchain_openai import ChatOpenAI
+#from langchain_groq import ChatGroq
+from langchain_openai import ChatOpenAI
 from crewai_tools import CSVSearchTool
 #from crewai_tools import FileReadTool
 #import pandas as pd
@@ -10,23 +10,23 @@ load_dotenv()
 
 
 
-GroqApiKey = os.getenv('GROQ_API_KEY')
+#GroqApiKey = os.getenv('GROQ_API_KEY')
 
-'''
+
 OpenaiApiKey = os.getenv('OPENAI_API_KEY')
 Openai = ChatOpenAI (
                     api_key= OpenaiApiKey,
-                    model= 'gpt-4o'
+                    model= 'gpt-3.5-turbo-16k-0613'
 )
 
-'''
 
-llama3 = ChatGroq(
-            api_key= GroqApiKey,
-            model="groq/llama3-70b-8192"
-        )
 
-file_read_csv_tool = CSVSearchTool('Histórico de Entrada de Pedidos Grupos  SubGrupo e Produtos.csv', sep=',')
+#llama3 = ChatGroq(
+ #           api_key= GroqApiKey,
+  #          model="groq/llama3-70b-8192"
+   #     )
+
+file_read_csv_tool = CSVSearchTool(csv='Histórico de Entrada de Pedidos Grupos  SubGrupo e Produtos.csv')
 
 #file_read_txt_tool = FileReadTool(arquivo)
 
@@ -38,7 +38,7 @@ Diretor = Agent(
     backstory="O Diretor é um profissional altamente capacitado com PHD em Havard de Administração de Empresas" 
               "e muita experiência no segmento de vendas.Retorne as mensagens em Português do Brasil",
     verbose= True,    
-    llm=llama3 
+    llm=Openai 
     )
 
 
@@ -50,7 +50,7 @@ Analista = Agent(
     tools=[file_read_csv_tool],
     backstory="O Analista é um profissinal altamente requisitado para o time de negócio, muito qualificado com PHD no MIT , retorne  as mensagens em Português do Brasil.",
     verbose= True,
-    llm=llama3
+    llm=Openai
 )
 
 
@@ -61,7 +61,7 @@ Vendedor = Agent(
     tools=[file_read_csv_tool],
     backstory="O vendedor é um profissional inteligente e comunicador,retorne as mensagens em Português do Brasil",
     verbose= True,
-    llm=llama3
+    llm=Openai
 )
 
 
@@ -97,7 +97,7 @@ time_comercial = Crew(
     agents=[Diretor,  Analista],
     tasks=[coordenar_equipe,  Trazer_analises_precisas],
     process=Process.hierarchical,
-    manager_llm=llama3
+    manager_llm=Openai
 )
 
 
