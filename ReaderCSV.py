@@ -2,8 +2,8 @@ import os
 from crewai import Agent, Task, Crew, Process
 from langchain_groq import ChatGroq
 #from langchain_openai import ChatOpenAI
-from crewai_tools import CSVSearchTool
-#from crewai_tools import FileReadTool
+#from crewai_tools import CSVSearchTool
+from crewai_tools import FileReadTool
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,14 +22,14 @@ Openai = ChatOpenAI (
 
 llama3 = ChatGroq(
             api_key= GroqApiKey,
-            model="llama3-70b-8192"
+            model="groq/llama3-70b-8192"
         )
 
 
 
-file_read_csv_tool = CSVSearchTool()
+#file_read_csv_tool = CSVSearchTool()
 
-#file_read_txt_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
+file_read_txt_tool = FileReadTool(file_path= 'Representantesd.xlsx')
 
 
 
@@ -54,7 +54,7 @@ Analista = Agent(
     role='Analista de Dados',
     goal= "Analisar os dados do arquivo e pontuar quais são os top 10 produtos com mais estoque" 
             " disponível para venda,retorne as mensagens em Português do Brasil",
-    tools=[file_read_csv_tool],
+    tools=[file_read_txt_tool],
     backstory="O Analista é um profissinal altamente requisitado para o time de negócio, muito qualificado com PHD no MIT , retorne  as mensagens em Português do Brasil.",
     verbose= True,
     llm=llama3
@@ -65,7 +65,7 @@ Analista = Agent(
 Vendedor = Agent(
     role='Vendedor Comercial',
     goal='Pesquisar na web as melhores notícias para o analista possa identificar correlações entre elas e o documento.Retorne as mensagens em Português do Brasil',
-    tools=[file_read_csv_tool],
+    tools=[file_read_txt_tool],
     backstory="O vendedor é um profissional inteligente e comunicador,retorne as mensagens em Português do Brasil",
     verbose= True,
     llm=llama3
