@@ -12,7 +12,7 @@ GroqApiKey = os.getenv('GROQ_API_KEY')
 
 llama3 = ChatGroq(
             api_key= GroqApiKey,
-            model="llama3-70b-8192"
+            model="groq/llama3-70b-8192"
         )
 
 
