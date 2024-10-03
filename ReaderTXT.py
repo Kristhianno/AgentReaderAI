@@ -17,7 +17,7 @@ llama3 = ChatGroq(
 
 
 
-file_read_tool = FileReadTool(file_path= 'PraticasdeVendas.txt')
+file_read_tool = FileReadTool(file_path= 'tecnicasVendas.txt')
 
 
 
