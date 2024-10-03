@@ -12,24 +12,31 @@ GroqApiKey = os.getenv('GROQ_API_KEY')
 llama3 = ChatGroq( api_key= GroqApiKey, model="groq/llama3-70b-8192")
 
 
-file_read_tool = FileReadTool(file_path= 'tecnicasVendas.txt')
+file_read_tool =FileReadTool(file_path= 'tecnicasVendas.txt')
 WebScraping =ScrapeWebsiteTool(website_url= 'https://www.google.com')
 
 
 
 Vendedor = Agent(
     role='Vendedor Comercial',
-    goal='Pesquisar na internet os clientes e fornecedores que utilizam nosso produto.Retorne as mensagens em Português do Brasil',
+
+    goal='Pesquisar na internet as empresas do ramo de revestimento sintético e suas estratégias de marketing e vendas,' 
+         'retorne 5 grandes empresas e pelo menos as 3 grandes estratégias de cada uma delas.' 
+         'Retorne as mensagens em Português do Brasil',
+
     backstory="O vendedor é um profissional inteligente e comunicador,retorne as mensagens em Português do Brasil",
+
+    tools= [WebScraping],
+    
     verbose= True,
+    
     llm=llama3
 )
 
 
 Trazer_informacao = Task(
     description="O Vendedor deve trazer informações precisas para o Analista , retorne as mensagens em Português do Brasil.",
-    expected_output = "Todas as informações foram passadas para o Analista, caminho livre para trazer as melhores estratégias.",
-    tools= [WebScraping],
+    expected_output = "Todas as informações foram passadas para o Analista, caminho livre para trazer as melhores estratégias.",    
     agent=Vendedor
 )
 
@@ -39,6 +46,7 @@ Analista = Agent(
     role='Analista de Dados',
     goal=  "Analisar os dados do arquivo e pontuar quais são as estratégias mais usadas no mundo corporativo" 
            "retorne as mensagens em Português do Brasil",
+    tools = [file_read_tool],
     backstory="O Analista é um profissinal altamente requisitado para o time de negócio, muito qualificado com PHD no MIT , retorne  as mensagens em Português do Brasil.",
     verbose= True,
     llm=llama3
@@ -48,7 +56,7 @@ Analista = Agent(
 Trazer_analises_precisas = Task(
     description= "O Analista deve fornecer análises precisas de acordo com a pesquisa feita pelo vendedor, obtendo insights valiosos." 
                  "retorne as mensagens em Português do Brasil",
-    tools = [file_read_tool],
+    
     expected_output="Análise conclúida com sucesso e encaminhada para o Diretor.",
     agent = Analista
 )
