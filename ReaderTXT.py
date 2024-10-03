@@ -1,7 +1,10 @@
 import os
+
+
 from crewai import Agent, Task, Crew, Process
 from langchain_groq import ChatGroq
 from crewai_tools import FileReadTool, ScrapeWebsiteTool
+
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -12,6 +15,9 @@ GroqApiKey = os.getenv('GROQ_API_KEY')
 llama3 = ChatGroq( api_key= GroqApiKey, model="groq/llama3-70b-8192")
 
 
+
+
+# Ferramentas que serão usadas pelos agentes
 file_read_tool =FileReadTool(file_path= 'tecnicasVendas.txt')
 WebScraping =ScrapeWebsiteTool(website_url= 'https://www.google.com')
 
